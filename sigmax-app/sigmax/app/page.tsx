@@ -100,8 +100,7 @@ function erf(x: number) {
   const t = 1 / (1 + p * ax);
   const y =
     1 -
-    (((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t) *
-      Math.exp(-ax * ax);
+    (((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t) * Math.exp(-ax * ax);
   return sign * y;
 }
 function phi(z: number) {
@@ -299,25 +298,36 @@ export default function Page() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <header className="flex items-center gap-3">
-        <img
-          src={SIGMAX_LOGO}
-          alt="SIGMAX"
-          className="w-10 h-10 rounded hidden sm:block"
-          onError={(e) => {
-            (e.currentTarget as any).style.display = "none";
-          }}
-        />
-        <div className="w-10 h-10 rounded bg-emerald-700/10 flex items-center justify-center ring-1 ring-emerald-700/20 sm:hidden">
-          <span className="text-emerald-800 font-bold">Σ</span>
+      {/* Header con botón PDF */}
+      <header className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <img
+            src={SIGMAX_LOGO}
+            alt="SIGMAX"
+            className="w-10 h-10 rounded hidden sm:block"
+            onError={(e) => {
+              (e.currentTarget as any).style.display = "none";
+            }}
+          />
+          <div className="w-10 h-10 rounded bg-emerald-700/10 flex items-center justify-center ring-1 ring-emerald-700/20 sm:hidden">
+            <span className="text-emerald-800 font-bold">Σ</span>
+          </div>
+          <div>
+            <h1 className="text-2xl font-semibold text-emerald-900">SIGMAX</h1>
+            <p className="text-gray-600 text-sm">
+              Calculadora de Capacidad de Proceso
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-2xl font-semibold text-emerald-900">SIGMAX</h1>
-          <p className="text-gray-600 text-sm">
-            Calculadora de Capacidad de Proceso
-          </p>
-        </div>
+
+        {/* Botón Exportar a PDF (se oculta al imprimir) */}
+        <button
+          onClick={() => window.print()}
+          className="no-print px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white"
+          title="Guardar como PDF"
+        >
+          Exportar a PDF
+        </button>
       </header>
 
       {/* Entradas */}
