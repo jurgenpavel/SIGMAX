@@ -1,5 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -100,7 +101,8 @@ function erf(x: number) {
   const t = 1 / (1 + p * ax);
   const y =
     1 -
-    (((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t) * Math.exp(-ax * ax);
+    (((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t) *
+      Math.exp(-ax * ax);
   return sign * y;
 }
 function phi(z: number) {
@@ -108,7 +110,6 @@ function phi(z: number) {
 }
 
 /* =============== App =============== */
-const SIGMAX_LOGO = "https://i.imgur.com/xdr2Qu9.png"; // enlace directo
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -301,22 +302,21 @@ export default function Page() {
       {/* Header con botón PDF */}
       <header className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <img
-            src={SIGMAX_LOGO}
-            alt="SIGMAX"
-            className="w-10 h-10 rounded hidden sm:block"
-            onError={(e) => {
-              (e.currentTarget as any).style.display = "none";
-            }}
-          />
-          <div className="w-10 h-10 rounded bg-emerald-700/10 flex items-center justify-center ring-1 ring-emerald-700/20 sm:hidden">
-            <span className="text-emerald-800 font-bold">Σ</span>
+          {/* Logo local desde /app/icon.png */}
+          <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-emerald-700/20 bg-white">
+            <Image
+              src="/icon.png"
+              alt="SIGMAX"
+              width={40}
+              height={40}
+              priority
+              className="object-cover w-10 h-10"
+            />
           </div>
+
           <div>
             <h1 className="text-2xl font-semibold text-emerald-900">SIGMAX</h1>
-            <p className="text-gray-600 text-sm">
-              Calculadora de Capacidad de Proceso
-            </p>
+            <p className="text-gray-600 text-sm">Calculadora de Capacidad de Proceso</p>
           </div>
         </div>
 
@@ -346,9 +346,7 @@ export default function Page() {
 
         <div className="grid grid-cols-2 gap-3 content-start">
           <div className="col-span-2">
-            <label className="block text-sm font-medium">
-              Nombre de pieza/proceso
-            </label>
+            <label className="block text-sm font-medium">Nombre de pieza/proceso</label>
             <input
               className="w-full rounded-xl border p-2"
               placeholder="Eje 12mm"
@@ -367,9 +365,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">
-              Tolerancia total (±)
-            </label>
+            <label className="block text-sm font-medium">Tolerancia total (±)</label>
             <input
               inputMode="decimal"
               className="w-full rounded-xl border p-2"
@@ -403,9 +399,7 @@ export default function Page() {
                 className="w-full max-h-48 object-contain rounded-xl"
               />
             ) : (
-              <div className="text-sm text-gray-500">
-                Sube una foto (opcional)
-              </div>
+              <div className="text-sm text-gray-500">Sube una foto (opcional)</div>
             )}
             <input
               type="file"
@@ -433,26 +427,16 @@ export default function Page() {
       {/* Gráfica + panel lateral */}
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2 rounded-2xl border p-4">
-          <h2 className="text-lg font-semibold mb-2">
-            Histograma y curva normal
-          </h2>
+          <h2 className="text-lg font-semibold mb-2">Histograma y curva normal</h2>
           <div className="w-full h-80">
             <ResponsiveContainer>
               <ComposedChart
                 data={chartData}
                 margin={{ top: 10, right: 30, bottom: 10, left: 0 }}
               >
-                <XAxis
-                  dataKey="bin"
-                  interval={0}
-                  angle={-35}
-                  textAnchor="end"
-                  height={60}
-                />
+                <XAxis dataKey="bin" interval={0} angle={-35} textAnchor="end" height={60} />
                 <YAxis />
-                <Tooltip
-                  formatter={(v: any) => (Array.isArray(v) ? v[0] : v)}
-                />
+                <Tooltip formatter={(v: any) => (Array.isArray(v) ? v[0] : v)} />
                 <Bar dataKey="count" barSize={24} />
                 <Line type="monotone" dataKey="pdf" dot={false} strokeWidth={2} />
                 {Number.isFinite(lsl) && chartData.length > 0 && (
@@ -460,10 +444,7 @@ export default function Page() {
                     x={
                       chartData.reduce(
                         (best, h) =>
-                          Math.abs(h.x - lsl) <
-                          Math.abs((best?.x ?? Infinity) - lsl)
-                            ? h
-                            : best,
+                          Math.abs(h.x - lsl) < Math.abs((best?.x ?? Infinity) - lsl) ? h : best,
                         chartData[0]
                       ).bin
                     }
@@ -474,10 +455,7 @@ export default function Page() {
                     x={
                       chartData.reduce(
                         (best, h) =>
-                          Math.abs(h.x - usl) <
-                          Math.abs((best?.x ?? Infinity) - usl)
-                            ? h
-                            : best,
+                          Math.abs(h.x - usl) < Math.abs((best?.x ?? Infinity) - usl) ? h : best,
                         chartData[0]
                       ).bin
                     }
@@ -488,10 +466,7 @@ export default function Page() {
                     x={
                       chartData.reduce(
                         (best, h) =>
-                          Math.abs(h.x - tNum) <
-                          Math.abs((best?.x ?? Infinity) - tNum)
-                            ? h
-                            : best,
+                          Math.abs(h.x - tNum) < Math.abs((best?.x ?? Infinity) - tNum) ? h : best,
                         chartData[0]
                       ).bin
                     }
@@ -502,8 +477,7 @@ export default function Page() {
                     x={
                       chartData.reduce(
                         (best, h) =>
-                          Math.abs(h.x - stats.mu) <
-                          Math.abs((best?.x ?? Infinity) - stats.mu)
+                          Math.abs(h.x - stats.mu) < Math.abs((best?.x ?? Infinity) - stats.mu)
                             ? h
                             : best,
                         chartData[0]
@@ -526,17 +500,11 @@ export default function Page() {
           )}
           <div className="text-sm grid grid-cols-2 gap-2">
             <div className="text-gray-600">T</div>
-            <div className="font-medium">
-              {Number.isFinite(tNum) ? round(tNum) : "—"}
-            </div>
+            <div className="font-medium">{Number.isFinite(tNum) ? round(tNum) : "—"}</div>
             <div className="text-gray-600">LSL</div>
-            <div className="font-medium">
-              {Number.isFinite(lsl) ? round(lsl) : "—"}
-            </div>
+            <div className="font-medium">{Number.isFinite(lsl) ? round(lsl) : "—"}</div>
             <div className="text-gray-600">USL</div>
-            <div className="font-medium">
-              {Number.isFinite(usl) ? round(usl) : "—"}
-            </div>
+            <div className="font-medium">{Number.isFinite(usl) ? round(usl) : "—"}</div>
           </div>
         </div>
       </div>
@@ -549,31 +517,23 @@ export default function Page() {
             <div className="text-gray-600">N</div>
             <div className="font-medium">{stats.n}</div>
             <div className="text-gray-600">LSL</div>
-            <div className="font-medium">
-              {Number.isFinite(lsl) ? round(lsl) : "—"}
-            </div>
+            <div className="font-medium">{Number.isFinite(lsl) ? round(lsl) : "—"}</div>
             <div className="text-gray-600">USL</div>
-            <div className="font-medium">
-              {Number.isFinite(usl) ? round(usl) : "—"}
-            </div>
+            <div className="font-medium">{Number.isFinite(usl) ? round(usl) : "—"}</div>
             <div className="text-gray-600">Nominal (T)</div>
             <div className="font-medium">
               {Number.isFinite(stats.Tused) ? round(stats.Tused) : "—"}
             </div>
             <div className="text-gray-600">Media (x̄)</div>
             <div className="font-medium">{round(stats.mu)}</div>
-            <div className="text-gray-600">
-              σ ({sampleStd ? "muestral" : "población"})
-            </div>
+            <div className="text-gray-600">σ ({sampleStd ? "muestral" : "población"})</div>
             <div className="font-medium">{round(stats.sig)}</div>
             <div className="text-gray-600">σ global (Pp)</div>
             <div className="font-medium">{round(stats.sigGlobal)}</div>
             <div className="text-gray-600">Mediana</div>
             <div className="font-medium">{round(stats.med)}</div>
             <div className="text-gray-600">Moda</div>
-            <div className="font-medium">
-              {stats.mo === null ? "—" : round(stats.mo)}
-            </div>
+            <div className="font-medium">{stats.mo === null ? "—" : round(stats.mo)}</div>
             <div className="text-gray-600">Rango (R)</div>
             <div className="font-medium">{round(stats.R)}</div>
             <div className="text-gray-600">Mínimo</div>
@@ -592,9 +552,7 @@ export default function Page() {
         </div>
 
         <div className="rounded-2xl border p-4 md:col-span-2">
-          <h2 className="text-lg font-semibold mb-2">
-            Índices de capacidad y desempeño
-          </h2>
+          <h2 className="text-lg font-semibold mb-2">Índices de capacidad y desempeño</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 text-sm">
             {kpiList.map((k) => (
               <div key={k.label} className="flex justify-between border-b py-1">
@@ -612,9 +570,7 @@ export default function Page() {
 
       {/* Clasificación */}
       <div className="rounded-2xl border p-4">
-        <h2 className="text-lg font-semibold mb-2">
-          Clasificación del proceso según Cp
-        </h2>
+        <h2 className="text-lg font-semibold mb-2">Clasificación del proceso según Cp</h2>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="rounded-2xl p-4 border">
             <div className="text-sm text-gray-600">Clase</div>
@@ -640,9 +596,7 @@ export default function Page() {
 
       {/* Muestra ordenada */}
       <div className="rounded-2xl border p-4">
-        <h2 className="text-lg font-semibold mb-2">
-          Muestra ordenada (ascendente)
-        </h2>
+        <h2 className="text-lg font-semibold mb-2">Muestra ordenada (ascendente)</h2>
         {sorted.length ? (
           <div className="max-h-60 overflow-auto border rounded-xl p-3 text-sm">
             <div className="grid grid-cols-6 gap-2">
