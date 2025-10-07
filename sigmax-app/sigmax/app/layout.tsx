@@ -5,8 +5,7 @@ export const metadata: Metadata = {
   title: "SIGMAX — Calculadora de Capacidad de Proceso",
   description: "Calculadora Six Sigma / Capacidad de Proceso",
   icons: {
-    // Asegúrate de que el archivo esté en la carpeta /public
-    icon: "/favicon.png", // ← cambia este nombre si tu imagen tiene otro nombre
+    icon: "/icon.png", // Tu favicon personalizado
   },
 };
 
@@ -18,14 +17,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Si deseas usar varias versiones del icono */}
-        <link rel="icon" href="/favicon.png" sizes="any" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <meta name="theme-color" content="#ffffff" />
+        <link rel="icon" href="/icon.png" sizes="any" />
       </head>
-      <body className="bg-white text-gray-900">
-        {children}
-      </body>
+      <body className="bg-white text-gray-900">{children}</body>
     </html>
   );
 }
