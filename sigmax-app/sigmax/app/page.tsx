@@ -103,7 +103,7 @@ function erf(x: number) {
 const phi = (z: number) => 0.5 * (1 + erf(z / Math.SQRT2));
 
 /* ==================== App ==================== */
-const SIGMAX_LOGO = "https://imgur.com/xdr2Qu9"; // si no es directo, se verá “Σ”
+const SIGMAX_LOGO = "https://i.imgur.com/xdr2Qu9.png"; // si no es directo, se verá “Σ”
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -321,37 +321,44 @@ export default function Page() {
           </div>
         </div>
         <div className="md:col-span-1">
-          <label className="block text-sm font-medium text-emerald-900 mb-1">
-            Pieza/Proceso
-          </label>
-          <div className="rounded-2xl border p-3 flex flex-col gap-3 items-center justify-center min-h-40">
-            {photoUrl ? (
-              <img
-                src={photoUrl}
-                alt="pieza"
-                className="w-full aspect-video object-cover rounded-xl"
-              />
-            ) : (
-              <div className="text-sm text-gray-500">Sube una foto (opcional)</div>
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (!f) return;
-                const u = URL.createObjectURL(f);
-                setPhotoUrl(u);
-              }}
-            />
-            {photoUrl && (
-              <button className="px-3 py-2 rounded-xl border" onClick={() => setPhotoUrl(null)}>
-                Quitar foto
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+  <label className="block text-sm font-medium text-emerald-900 mb-1">
+    Pieza/Proceso
+  </label>
+
+  <div className="rounded-2xl border p-4 text-center flex flex-col items-center justify-center gap-3 min-h-40 w-full overflow-hidden">
+    {photoUrl ? (
+      <img
+        src={photoUrl}
+        alt="pieza"
+        className="w-full max-h-48 object-contain rounded-xl"
+      />
+    ) : (
+      <div className="text-sm text-gray-500">Sube una foto (opcional)</div>
+    )}
+
+    {/* Input de archivo adaptado al contenedor */}
+    <input
+      type="file"
+      accept="image/*"
+      className="w-full text-sm file:mr-3 file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-emerald-50 file:text-emerald-900 hover:file:bg-emerald-100"
+      onChange={(e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        const u = URL.createObjectURL(f);
+        setPhotoUrl(u);
+      }}
+    />
+
+    {photoUrl && (
+      <button
+        className="px-3 py-2 rounded-xl border hover:bg-gray-50"
+        onClick={() => setPhotoUrl(null)}
+      >
+        Quitar foto
+      </button>
+    )}
+  </div>
+</div>
 
       {/* Gráfica + panel lateral */}
       <div className="grid md:grid-cols-3 gap-6">
