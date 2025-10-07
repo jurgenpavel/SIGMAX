@@ -4,3 +4,36 @@
 
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
+/* Ocultar elementos solo al imprimir */
+.no-print {}
+
+/* Estilos para impresión (Exportar PDF) */
+@media print {
+  .no-print { display: none !important; }
+
+  @page {
+    size: A4;          /* cambia a 'letter' si lo prefieres */
+    margin: 12mm;
+  }
+
+  /* Quita sombras y deja fondo blanco en tarjetas */
+  .border, .rounded-2xl, .rounded-xl, .rounded-lg {
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  /* Usa todo el ancho disponible en la versión impresa */
+  .max-w-7xl { max-width: none !important; }
+
+  /* Evita cortes feos entre páginas */
+  .grid, .rounded-2xl, .p-4, .p-6 {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Asegura altura para la gráfica al imprimir */
+  .h-80 { height: 420px !important; }
+
+  /* Mantén colores en la impresión */
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
