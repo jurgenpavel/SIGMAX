@@ -125,8 +125,8 @@ export default function Page() {
   const tNum = Number(T);
   const tolNum = Number(tol);
   // La tolerancia es TOTAL (±Tol/2 a cada lado)
-  const lsl = Number.isFinite(tNum) && Number.isFinite(tolNum) ? tNum - tolNum / 2 : NaN;
-  const usl = Number.isFinite(tNum) && Number.isFinite(tolNum) ? tNum + tolNum / 2 : NaN;
+  const lsl = Number.isFinite(tNum) && Number.isFinite(tolNum) ? tNum - tolNum: NaN;
+  const usl = Number.isFinite(tNum) && Number.isFinite(tolNum) ? tNum + tolNum: NaN;
 
   const stats = useMemo(() => {
     const n = values.length;
